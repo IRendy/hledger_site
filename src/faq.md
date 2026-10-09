@@ -627,7 +627,7 @@ adding the calculated values as a new field, before converting it with hledger.
 ### Where can I find more help with CSV conversion ?
 
 Study the whole [CSV](hledger.md#csv) section in the manual carefully.
-[Working with CSV](hledger.md#working-with-csv) has useful tips, eg for [setting amounts](hledger.md#setting-amounts).
+[Setting amounts](hledger.md#setting-amounts) and [Working with CSV](hledger.md#working-with-csv) have useful tips.
 And of course, make use of the [chat](#support).
 
 ## REPORTING
