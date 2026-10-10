@@ -73,6 +73,7 @@ hledger 2 uses them to track lots, and checks them:
 If you don't want to deal with these now, you can run hledger with `--ignore-lots` or `-I`.
 This skips lot tracking and lot error checking, giving results close to hledger 1's.
 (`-I` also skips balance assertions.)
+For other lot errors, see [Troubleshooting lots](hledger.md#troubleshooting-lots) in the manual.
 
 **Decimal marks.**
 When a `decimal-mark` directive (or CSV rule) is in effect,
@@ -227,6 +228,8 @@ or hledger will report lot errors. But don't worry; here are some ways to divide
   can be left out with a `lots: NONE` tag on the account declaration.
 - **Compare with your broker.** `hledger holdings --lots` shows the lots hledger has worked out;
   check them against your broker's records, and add balance assertions to catch drift.
+- **Troubleshoot.** See [Troubleshooting lots](hledger.md#troubleshooting-lots) in the manual.
+  `hledger print -a` is the most useful tool, showing how hledger has read each entry.
 - **Keep other reports working.** While lot records are incomplete, you can skip lot processing with `--ignore-lots`.
 
 ## Switching back to hledger 1
