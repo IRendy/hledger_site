@@ -167,7 +167,7 @@ Y (supported), Ignored (accepted but ignored), or N (not accepted).
 | [5.7.1 Metadata tags](https://www.ledger-cli.org/3.0/doc/ledger3.html#Metadata-tags)                                                                  | Y       | "Tag names". Format is `TAG1:, TAG2:` not `:TAG1:TAG2:`.
 | [5.7.1.1 Payee metadata tag](https://www.ledger-cli.org/3.0/doc/ledger3.html#Payee-metadata-tag)                                                      | N       |
 | [5.7.2 Metadata values](https://www.ledger-cli.org/3.0/doc/ledger3.html#Metadata-values)                                                              | Y       | "Tag values". They are terminated by a comma or newline.
-| [5.7.3 Typed metadata](https://www.ledger-cli.org/3.0/doc/ledger3.html#Typed-metadata)                                                                | N       | Values of the `date:`/`date2:` tags are checked as dates; all others are strings.
+| [5.7.3 Typed metadata](https://www.ledger-cli.org/3.0/doc/ledger3.html#Typed-metadata)                                                                | N       | All tag values are strings, except `date:`/`date2:` in posting comments, which set posting dates (see [Other differences](#other-differences)).
 | [5.8 Virtual postings](https://www.ledger-cli.org/3.0/doc/ledger3.html#Virtual-postings)                                                              | Y       | "Virtual postings" AKA "unbalanced postings", and "balanced virtual postings"
 | [5.9 Expression amounts](https://www.ledger-cli.org/3.0/doc/ledger3.html#Expression-amounts)                                                          | N       | 
 | [4.5.4 Value expressions](https://www.ledger-cli.org/3.0/doc/ledger3.html#Complete-control-over-commodity-pricing)                                    | N       | 
@@ -444,8 +444,13 @@ See [hledger manual: Cost basis](../dev/hledger.md#cost-basis),
 
 - Ledger can also output warnings. hledger does not print warnings; it either succeeds or fails.
 
-- hledger will complain if transaction or posting comments contain `date:` or `date2:`
-  not followed by a valid [date tag value](/hledger.html#posting-dates).
+- Posting dates: both tools accept Ledger's bracketed `[DATE]` / `[DATE=DATE2]` in posting comments.
+  hledger also treats `date:` and `date2:` tags in posting comments as [posting dates](/hledger.html#posting-dates),
+  whereas for Ledger these are ordinary metadata.
+  So a Ledger journal using these tags as metadata may see postings re-dated by hledger,
+  or (if the value doesn't begin with a valid date) an error.
+  An empty value is allowed by hledger 1.99.6+, and sets no date.
+  (In transaction comments, these tags are ordinary tags in both tools.)
 
 ## Interoperating tips
 
@@ -494,6 +499,11 @@ Some common problems:
   So transactions using those might be reported as unbalanced, or might have wrong capital gain inferred.
   hledger 2 reads them and tracks the lots.
   See [Cost basis](#cost-basis) above.
+
+- If your Ledger journal has `date:` or `date2:` metadata in posting comments,
+  hledger will use those as posting dates (or reject them if they aren't dates).
+  You may want to rename those tags.
+  See [Other differences](#other-differences) above.
 
 See also the other [Differences](#) mentioned above.
 
