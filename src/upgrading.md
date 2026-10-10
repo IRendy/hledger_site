@@ -153,7 +153,7 @@ If your scripts, aliases or config files use these, update them:
 
 Some of the most useful new features in hledger 2:
 
-- **Speed**: 2-3x faster than hledger 1.52.
+- **Speed**: [2-3x faster](PERFORMANCE.md) than hledger 1.52.
 - **Localisation**: report headings and hledger-ui/hledger-web's UI can be shown in other [languages](hledger.md#languages), with `--lang`
   (currently en, de, zh).
 - **Lot tracking and capital gains**: a `lots` tag tracks each purchase's cost basis and calculates gains when you sell,
