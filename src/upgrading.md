@@ -190,36 +190,20 @@ For all changes, see the [release notes](relnotes.md).
 
 ## Turning on lot tracking
 
-Once your data works with hledger 2, you can let it track your investment lots and calculate gains for you.
-Usually you just add a `lots` tag to each investment commodity's declaration:
-```journal
-commodity AAPL  ; lots:
-```
-See [Lots and capital gains](hledger.md#lots-and-capital-gains).
+Once your data works with hledger 2, you can (if you want) let it track and check your investment lots;
+see [Lots and capital gains](hledger.md#lots-and-capital-gains).
+hledger then works out each lot's cost basis, and picks the lots to sell using your chosen method (FIFO, LIFO, ...),
+calculates realised gains (and checks any you have written),
+reports holdings with unrealised and realised gains,
+and catches mistakes such as selling more than you hold.
+If you have been tracking lots by hand, with subaccounts, this replaces most of that work.
 
-One thing to watch for: in hledger 1 a sale was often recorded at its original cost, with a written gain posting.
-This is the same issue as the unbalanced sale in [Lot errors](#errors-you-might-see) above,
-now caused by the `lots` tag rather than a `{}` annotation:
-```journal
-2026-02-01 sell
-    assets:stocks     -5 AAPL @ $50   ; at original cost
-    assets:cash      $350
-    revenues:gain   $-100
-```
-With lot tracking, `@` is read as the selling price, so this entry becomes unbalanced.
-Write the selling price instead:
-```journal
-2026-02-01 sell
-    assets:stocks     -5 AAPL @ $70
-    assets:cash      $350
-    revenues:gain   $-100
-```
-hledger then checks the written gain against its own calculation; or you can leave out the gain posting, and let hledger add it.
-
-**A heads-up:** recording your whole past investment history as lots will probably be a big job.
-In lot accounting, later entries tend to depend on all previous entries.
-So every purchase, sale, transfer, split and fee must have the right date, quantity and cost,
-or hledger will report lot errors. But don't worry; here are some ways to divide and conquer:
+**A heads-up.**
+Be warned, recording your whole past investment history as lots can be a big job.
+In lot accounting, later entries tend to depend on all previous entries;
+so every purchase, sale, transfer, split and fee must have the right date, quantity and cost,
+or hledger will report lot errors.
+But don't worry! There are ways to divide and conquer. Eg:
 
 - **Draft in a separate file.** Copy your investment entries into a new file, eg `investments.journal`,
   add the `lots` tag there, and work on it with `hledger -f investments.journal check`
@@ -249,56 +233,53 @@ or hledger will report lot errors. But don't worry; here are some ways to divide
   `hledger print -a` is the most useful tool, showing how hledger has read each entry.
 - **Keep other reports working.** While lot records are incomplete, you can skip lot processing with `--ignore-lots`.
 
-**If you have been tracking lots with subaccounts**, as the [investments](investments.md) page suggested for hledger 1
+Usually you start by adding a `lots` tag to each investment commodity's declaration:
+```journal
+commodity AAPL  ; lots:
+```
+
+One thing to watch for: in hledger 1 a sale is often recorded at its original cost, using `@`:
+```journal
+2026-02-01 sell
+    assets:stocks     -5 AAPL @ $50   ; bought at $50
+    assets:cash      $350
+    revenues:gain   $-100
+```
+In hledger 2 with lot tracking enabled, `@` records the selling price instead, and the gain amount is not part of transaction balancing.
+So the entry should be:
+```journal
+2026-02-01 sell
+    assets:stocks     -5 AAPL @ $70   ; sold at $70
+    assets:cash      $350
+    revenues:gain   $-100
+```
+You can leave the gain posting, and hledger will check it; or remove it, and it will be inferred.
+(This is the unbalanced sale issue mentioned in [Lot errors](#errors-you-might-see) above, now caused by the `lots` tag.)
+
+**If you have been tracking lots in hledger 1**, with subaccounts as the [investments](investments.md) page suggested
 (eg `assets:cc:ada:20200201`), those entries keep working in hledger 2 unchanged.
-If you want to convert them to hledger 2's lot tracking (perhaps in a separate file, as above):
+If you want to convert them to hledger 2's lot tracking:
 
-- Add the `lots` tag to the commodity.
-- Post purchases to the parent account; hledger 2 records the lot automatically (visible with `--lots`).
+- Add the `lots` tag to the commodity, as above.
+- Post purchases to the parent account (remove the `:20200201` subaccount).
 - In sales, post to the parent account, select the lot by its date,
-  and write the selling price instead of the original cost. Eg, this hledger 1 entry:
-  ```journal
-  2020-03-02 sell the second lot
-      assets:cc:ada:20200215     -1000 ADA @ $0.03   ; original cost
-      revenues:capital gain       $-10
-      assets:bank:checking         $40
-  ```
-  becomes:
-  ```journal
-  2020-03-02 sell the second lot
-      assets:cc:ada              -1000 ADA {2020-02-15} @ $0.04   ; selling price
-      revenues:capital gain       $-10
-      assets:bank:checking         $40
-  ```
-  You can keep the gain posting, and hledger will check it, or remove it, and hledger will infer it.
-  Notice how hledger 2 doesn't use it for transaction balancing here.
-- Move any balance assertions on lot subaccounts to the parent account, or remove them.
+  and write the selling price instead of the original cost, as above.
+  Eg `assets:cc:ada:20200201  -1000 ADA @ $0.03` becomes `assets:cc:ada  -1000 ADA {2020-02-01} @ $0.04`.
+- If you have balance assertions on lot subaccounts, move them to the parent account, or drop them.
 
-## Switching back to hledger 1
+## Switching back, or using both
 
-Journals written for hledger 2 are mostly readable by hledger 1, with these caveats:
+hledger 1 can read most journals written for hledger 2.
+To switch back, or to keep the same files working in both versions, watch out for these:
 
-- hledger 1 ignores cost basis annotations.
-  An acquisition written as `10 AAA {$50}` means `10 AAA` in hledger 1.
-  So you may need to write the transacted cost too: `10 AAA {$50} @ $50`.
-- hledger 1 rejects `type: U` account declarations.
-  (hledger 2 supports them but doesn't use them.)
-- hledger 1 does not infer gain postings, and balances disposals at transacted cost,
-  so a disposal entry with an explicit gain posting (like `revenues:gain   $-50`)
-  is unbalanced in hledger 1.
-  Omit the gain posting (or its amount) instead.
-  See [Recording gains](hledger.md#recording-gains).
-- hledger 2's `print --lots` output includes lot subaccount names like `assets:stocks:{2026-01-01, $50}`;
-  hledger 1 reads these as ordinary subaccounts.
-- The `lots` tag on commodity and account declarations is an ordinary tag in hledger 1, and is ignored.
+- **Cost basis annotations.** hledger 1 ignores them: `10 AAA {$50}` means just `10 AAA`.
+  So write the transacted cost too, with the same amount: `10 AAA {$50} @ $50`.
+- **Gain postings.** hledger 1 doesn't infer them, and balances a sale differently, as shown above.
+  So leave out the gain posting, or its amount; hledger 2 will infer it, and hledger 1 will record no gain.
+- **New syntax.** hledger 1 can't read dated annotations like `{2024-03-15, $50}`,
+  `type: U` account declarations, or new CSV rules like `merge`. Avoid these.
+- **Lot subaccounts.** hledger 2's `print --lots` output includes names like `assets:stocks:{2026-01-01, $50}`,
+  which hledger 1 reads as ordinary subaccounts. Generally, avoid account names ending in `{...}`.
+- **The `lots` tag** is an ordinary tag in hledger 1, and has no effect.
 
-## Keeping data usable with both
-
-To keep the same journal working in both hledger 1 and hledger 2:
-
-- write acquisitions with both cost basis and cost, with the same amount in each: `10 AAA {$50} @ $50`
-- write disposals without a gain posting
-  (then hledger 2 infers it, and hledger 1 shows no gain)
-- don't declare `type: U` accounts (hledger 1 rejects them, hledger 2 doesn't need them)
-- avoid account names ending in `{...}`
-- after changes, check the journal with both versions, eg `hledger check` and `hledger1 check`
+After changes, check your files with both versions, eg `hledger check` and `hledger1 check`.
