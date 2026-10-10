@@ -203,7 +203,7 @@ hledger then checks the written gain against its own calculation; or you can lea
 **A heads-up:** recording your whole past investment history as lots will probably be a big job.
 In lot accounting, later entries tend to depend on all previous entries.
 So every purchase, sale, transfer, split and fee must have the right date, quantity and cost,
-or hledger will report lot errors. Here are some ways to divide and conquer:
+or hledger will report lot errors. But don't worry; here are some ways to divide and conquer:
 
 - **Draft in a separate file.** Copy your investment entries into a new file, eg `investments.journal`,
   add the `lots` tag there, and work on it with `hledger -f investments.journal check`
