@@ -91,7 +91,7 @@ For more help with lot errors, see [Turning on lot tracking](#turning-on-lot-tra
 ## Behaviour changes
 
 Some of these can change reports, without raising an error.
-Comparing reports from both versions, as in the upgrade steps above, will show them.
+Comparing reports from both versions, as in the upgrade steps above, will show any differences.
 
 - **Config file default command.**
   A config file can no longer choose the command to run.
