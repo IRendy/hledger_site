@@ -255,7 +255,8 @@ If you want to convert them to hledger 2's lot tracking (perhaps in a separate f
       revenues:capital gain       $-10
       assets:bank:checking         $40
   ```
-  You can keep the gain posting, and hledger will check it, or remove it, and hledger will add it.
+  You can keep the gain posting, and hledger will check it, or remove it, and hledger will infer it.
+  Notice how hledger 2 doesn't use it for transaction balancing here.
 - Move any balance assertions on lot subaccounts to the parent account, or remove them.
 
 ## Switching back to hledger 1
