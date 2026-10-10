@@ -7,7 +7,7 @@ This page helps you check that, and fix anything that needs it.
 It covers the changes since hledger 1.52 that can affect existing setups;
 the [release notes](relnotes.md) list all changes.
 
-hledger 1 (1.52.x) continues to receive essential fixes,
+hledger 1 (1.52.x) continues to receive occasional fixes,
 and both versions can be installed side by side.
 
 ## Upgrade steps
@@ -40,9 +40,9 @@ and both versions can be installed side by side.
 6. Fix anything found, using the sections below.
    And update any scripts or config which use [changed commands or options](#changed-commands-and-options).
 
-## Errors you may see
+## Errors you might see
 
-These are errors in hledger 2, which hledger 1 accepted.
+These are errors in hledger 2, which hledger 1 accepted. You probably won't see these.
 
 **Lot errors.**
 hledger 1 accepted cost basis annotations like `{$50}` but ignored them.
@@ -70,14 +70,15 @@ hledger 2 uses them to track lots, and checks them:
   are reserved for [lot subaccounts](hledger.md#lot-subaccounts), and are rejected unless the braces contain a valid lot name.
   Rename such accounts.
 
-To fix these later, you can run hledger with `-I` (`--ignore-lots`) for now.
-This skips lot tracking and gain calculation, giving results close to hledger 1's.
+If you don't want to deal with these now, you can run hledger with `--ignore-lots` or `-I`.
+This skips lot tracking and lot error checking, giving results close to hledger 1's.
+(`-I` also skips balance assertions.)
 
 **Decimal marks.**
-With a `decimal-mark` directive (or CSV rule) in effect,
+When a `decimal-mark` directive (or CSV rule) is in effect,
 a number using the other decimal mark (eg `1,000.00` when `decimal-mark ,` is declared),
-or using the declared mark more than once (eg `1.2.34`),
-is now an error. Correct the number, or the directive.
+or using the declared mark more than once (eg `1,2,34`),
+is now an error. Fix the number, or the directive.
 
 **CSV rules comments.**
 In CSV rules files, a line beginning with `*` is no longer a comment, and is reported as an error.
@@ -85,7 +86,7 @@ Use `#` or `;` to begin comment lines.
 
 ## Report differences
 
-These change reports without causing an error.
+These changes can cause reports to differ, without causing an error.
 Comparing reports from both versions, as in the upgrade steps above, will show them.
 
 - **Config file default command.**
@@ -148,8 +149,30 @@ If your scripts, aliases or config files use these, update them:
 - hledger-web, when listening on a non-local address (set with `--host`), is now read-only by default.
   Add `--allow=edit` to allow editing.
 
-There are also many new commands and options;
-see the [release notes](relnotes.md), and the [hledger manual](hledger.md).
+## What's new
+
+Some of the most useful new features in hledger 2:
+
+- **Speed**: 2-3x faster than hledger 1.52.
+- **Localisation**: report headings and hledger-ui/hledger-web's UI can be shown in other [languages](hledger.md#languages), with `--lang`
+  (currently en, de, zh).
+- **Lot tracking and capital gains**: a `lots` tag tracks each purchase's cost basis and calculates gains when you sell,
+  with several [cost basis methods](hledger.md#cost-basis-methods) (FIFO, LIFO, HIFO, AVERAGE..),
+  and the new [holdings](hledger.md#holdings) report shows your investments, their value and gains.
+- **Simpler importing**: the new [get](hledger.md#get) command fetches new transactions and market prices,
+  and with a conventional `data/`, `rules/`, `prices/` layout, `hledger import` needs no arguments
+  (see [Finding the data](hledger.md#finding-the-data)).
+- **CSV rules**: [merge](hledger.md#merge) combines several CSV records into one transaction,
+  [functions](hledger.md#functions) transform field values,
+  and CSV or rules files can be included in a journal.
+- **Aliases**: [command aliases](hledger.md#command-aliases) in your config file,
+  and [commodity aliases](hledger.md#commodity-aliases).
+- **Find anywhere**: [`::TEXT`](hledger.md#find-query) matches text in any field, as you'd see it in `print` output.
+- **Compact transactions list**: the new [transactions](hledger.md#transactions) (tx) command lists transactions one per line.
+- **hledger-ui** updates automatically when your files change, by default.
+- **hledger-web** gains balance reports, paging and a dark mode.
+
+For all changes, see the [release notes](relnotes.md).
 
 ## Turning on lot tracking
 
@@ -184,18 +207,16 @@ Journals written for hledger 2 are mostly readable by hledger 1, with these cave
 - hledger 1 ignores cost basis annotations.
   An acquisition written as `10 AAA {$50}` means `10 AAA` in hledger 1.
   So you may need to write the transacted cost too: `10 AAA {$50} @ $50`.
-  (We recommend this anyway; see [Cost basis annotations](hledger.md#cost-basis-annotations).)
-- hledger 1 rejects `type: U` account declarations (`type: G` is fine).
-  (hledger 2 doesn't need them either.)
+- hledger 1 rejects `type: U` account declarations.
+  (hledger 2 supports them but doesn't use them.)
 - hledger 1 does not infer gain postings, and balances disposals at transacted cost,
-  so a disposal entry with a realised gain posting written (`revenues:gain  $-50`)
+  so a disposal entry with an explicit gain posting (like `revenues:gain   $-50`)
   is unbalanced in hledger 1.
-  Omit the gain posting instead (hledger 2 infers it; hledger 1 records no gain).
+  Omit the gain posting (or its amount) instead.
   See [Recording gains](hledger.md#recording-gains).
-- `print --lots` output includes lot subaccount names like `assets:stocks:{2026-01-01, $50}`;
+- hledger 2's `print --lots` output includes lot subaccount names like `assets:stocks:{2026-01-01, $50}`;
   hledger 1 reads these as ordinary subaccounts.
 - The `lots` tag on commodity and account declarations is an ordinary tag in hledger 1, and is ignored.
-- Commands and options new in hledger 2 are not available.
 
 ## Keeping data usable with both
 
