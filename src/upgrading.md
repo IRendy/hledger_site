@@ -46,7 +46,7 @@ These are errors in hledger 2, but weren't in hledger 1. You probably won't see 
 
 **Decimal marks.**
 When a `decimal-mark` directive (or CSV rule) is in effect,
-a number using the other decimal mark (eg `1,000.00` when `decimal-mark ,` is declared),
+a number that's clearly using the other decimal mark (eg `1,000.00` when `decimal-mark ,` is declared),
 or using the declared mark more than once (eg `1,2,34`),
 is now an error. Fix the number, or the directive.
 
@@ -74,6 +74,11 @@ hledger 2 uses them to track lots, and checks them:
   ```
   (A dated annotation like this needs hledger 2; hledger 1 can't read it.)
 
+- *"This multi-commodity transaction is unbalanced"*,
+  on a sale with a cost basis annotation and a gain posting, where `@` is the original cost (a common hledger 1 style),
+  like `-5 AAPL {$50} @ $50` with `revenues:gain  $-100`:
+  hledger 2 reads `@` as the selling price. Write the selling price instead: `-5 AAPL {$50} @ $70`.
+
 - *"A final account name part enclosed in { } must be a valid lot subaccount name."*
   Account names ending in `:{...}` are reserved for [lot subaccounts](hledger.md#lot-subaccounts),
   and are rejected unless the braces contain a valid lot name.
@@ -85,7 +90,7 @@ For more help with lot errors, see [Turning on lot tracking](#turning-on-lot-tra
 
 ## Report differences
 
-These changes can cause reports to differ, without causing an error.
+These can change reports, without raising an error.
 Comparing reports from both versions, as in the upgrade steps above, will show them.
 
 - **Config file default command.**
@@ -95,10 +100,9 @@ Comparing reports from both versions, as in the upgrade steps above, will show t
   Remove it, and give the command on the command line.
 
 - **Realised gains.**
-  If your journal has sales with cost basis annotations, like `-5 AAPL {$50} @ $70`,
-  hledger 2 calculates the realised gain and posts it to a gain account (`revenues:gain` by default).
-  So your income statement shows the gain, and your balance sheet totals change by the same amount.
-  This is usually what you want; `-I` gives hledger 1's results.
+  If your journal has sales with cost basis annotations but no gain posting, like `-5 AAPL {$50} @ $70`,
+  hledger 2 infers the realised gain and posts it to a gain account (`revenues:gain` by default).
+  This will appear on your income statement, which is usually what you want; `-I` gives hledger 1's results.
 
 - **Aliases and `apply account`.**
   When `alias` directives and `apply account` affect the same entries,
@@ -182,7 +186,9 @@ commodity AAPL  ; lots:
 ```
 See [Lots and capital gains](hledger.md#lots-and-capital-gains).
 
-One thing to watch for: in hledger 1 a sale was often recorded at its original cost, with a written gain posting:
+One thing to watch for: in hledger 1 a sale was often recorded at its original cost, with a written gain posting.
+This is the same issue as the unbalanced sale in [Lot errors](#errors-you-might-see) above,
+now caused by the `lots` tag rather than a `{}` annotation:
 ```journal
 2026-02-01 sell
     assets:stocks     -5 AAPL @ $50   ; at original cost
