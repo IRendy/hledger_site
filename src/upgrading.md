@@ -73,7 +73,7 @@ hledger 2 uses them to track lots, and checks them:
 If you don't want to deal with these now, you can run hledger with `--ignore-lots` or `-I`.
 This skips lot tracking and lot error checking, giving results close to hledger 1's.
 (`-I` also skips balance assertions.)
-For other lot errors, see [Troubleshooting lots](hledger.md#troubleshooting-lots) in the manual.
+For more help with lot errors, see [Turning on lot tracking](#turning-on-lot-tracking) below.
 
 **Decimal marks.**
 When a `decimal-mark` directive (or CSV rule) is in effect,
