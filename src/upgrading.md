@@ -167,7 +167,7 @@ If your scripts, aliases or config files depend on these, update them:
 
 Some of the most useful new features in hledger 2:
 
-- **Speed**: [2-3x faster](PERFORMANCE.md) than hledger 1.52.
+- **Speed**: hledger 2 is [2-3x faster](PERFORMANCE.md) than hledger 1.52, and uses up to a third less memory.
 - **Localisation**: report headings and hledger-ui/hledger-web's UI can be shown in other [languages](hledger.md#languages), with `--lang`
   (currently en, de, zh).
 - **Lot tracking and capital gains**: a `lots` tag tracks each purchase's cost basis and calculates gains when you sell,
@@ -196,14 +196,14 @@ hledger then works out each lot's cost basis, and picks the lots to sell using y
 calculates realised gains (and checks any you have written),
 reports holdings with unrealised and realised gains,
 and catches mistakes such as selling more than you hold.
-If you have been tracking lots by hand, with subaccounts, this replaces most of that work.
+Compared to tracking lots by hand, with subaccounts, this (a) saves a ton of work and (b) is more reliable.
 
 **A heads-up.**
 Be warned, recording your whole past investment history as lots can be a big job.
 In lot accounting, later entries tend to depend on all previous entries;
 so every purchase, sale, transfer, split and fee must have the right date, quantity and cost,
 or hledger will report lot errors.
-But don't worry! There are ways to divide and conquer. Eg:
+But fear not! There are ways to divide and conquer. Eg:
 
 - **Draft in a separate file.** Copy your investment entries into a new file, eg `investments.journal`,
   add the `lots` tag there, and work on it with `hledger -f investments.journal check`
