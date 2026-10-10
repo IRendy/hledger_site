@@ -42,11 +42,31 @@ and both versions can be installed side by side.
 
 ## Errors you might see
 
-These are errors in hledger 2, which hledger 1 accepted. You probably won't see these.
+These are errors in hledger 2, but weren't in hledger 1. You probably won't see these.
+
+**Decimal marks.**
+When a `decimal-mark` directive (or CSV rule) is in effect,
+a number using the other decimal mark (eg `1,000.00` when `decimal-mark ,` is declared),
+or using the declared mark more than once (eg `1,2,34`),
+is now an error. Fix the number, or the directive.
+
+**CSV rules comments.**
+In CSV rules files, a line beginning with `*` is no longer a comment, and is reported as an error.
+Use `#` or `;` to begin comment lines.
 
 **Lot errors.**
 hledger 1 accepted cost basis annotations like `{$50}` but ignored them.
 hledger 2 uses them to track lots, and checks them:
+
+- *"A final account name part enclosed in { } must be a valid lot subaccount name."*
+  Account names ending in `:{...}` are reserved for [lot subaccounts](hledger.md#lot-subaccounts),
+  and are rejected unless the braces contain a valid lot name.
+  Rename such accounts.
+
+- *"This acquire posting's cost basis ($50) differs from its transacted cost ($55)"*:
+  in a purchase like `10 AAPL {$50} @ $55`, the two costs must now agree.
+  If the difference is real (eg a gift with a carried-over cost basis),
+  record it in another posting, as in this [gift example](investments.md#gift-received).
 
 - *"no ... lots available for disposal"*:
   a sale (a negative amount with a `{...}` annotation) takes from a lot that the journal never acquires,
@@ -59,31 +79,9 @@ hledger 2 uses them to track lots, and checks them:
   ```
   (A dated annotation like this needs hledger 2; hledger 1 can't read it.)
 
-- *"This acquire posting's cost basis ($50) differs from its transacted cost ($55)"*:
-  a purchase like `10 AAPL {$50} @ $55`. These must now agree.
-  Usually `@` is what you paid; make the `{}` amount match it, or remove the `{}`.
-  If the difference is real (eg a gift with a carried-over cost basis),
-  record the cost basis as the cost, and the difference in another posting,
-  as in this [gift example](investments.md#gift-received).
-
-- *Account names ending in `{...}`*, like `assets:{savings}`,
-  are reserved for [lot subaccounts](hledger.md#lot-subaccounts), and are rejected unless the braces contain a valid lot name.
-  Rename such accounts.
-
 If you don't want to deal with these now, you can run hledger with `--ignore-lots` or `-I`.
-This skips lot tracking and lot error checking, giving results close to hledger 1's.
-(`-I` also skips balance assertions.)
+This skips lot processing, giving results close to hledger 1's. (`-I` also skips balance assertions.)
 For more help with lot errors, see [Turning on lot tracking](#turning-on-lot-tracking) below.
-
-**Decimal marks.**
-When a `decimal-mark` directive (or CSV rule) is in effect,
-a number using the other decimal mark (eg `1,000.00` when `decimal-mark ,` is declared),
-or using the declared mark more than once (eg `1,2,34`),
-is now an error. Fix the number, or the directive.
-
-**CSV rules comments.**
-In CSV rules files, a line beginning with `*` is no longer a comment, and is reported as an error.
-Use `#` or `;` to begin comment lines.
 
 ## Report differences
 
