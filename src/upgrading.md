@@ -88,9 +88,9 @@ If you don't want to deal with these now, you can run hledger with `--ignore-lot
 This skips lot processing, giving results close to hledger 1's. (`-I` also skips balance assertions.)
 For more help with lot errors, see [Turning on lot tracking](#turning-on-lot-tracking) below.
 
-## Report differences
+## Behaviour changes
 
-These can change reports, without raising an error.
+Some of these can change reports, without raising an error.
 Comparing reports from both versions, as in the upgrade steps above, will show them.
 
 - **Config file default command.**
