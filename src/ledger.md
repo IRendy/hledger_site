@@ -73,15 +73,18 @@ Ledger was traditionally faster than hledger with large files, eg above 5k trans
 (Many people record about 1-2k transactions per year.)
 Ledger's speed came partly from providing fewer guarantees, eg Ledger's balance assertions/assignments are not date-aware.
 
-Since about 2021 the performance gap seemed to me to have closed or reversed,
-at least on my mac, where hledger often ran faster and in less memory than Ledger,
-especially with very large files.
+Since about 2021 the gap has closed or reversed.
+Measured in 2026 (Ledger 3.4.1, on a macbook pro), Ledger is still a little quicker with small files
+(a balance report on 1k transactions takes 0.03s, against 0.05s for hledger 1.99.5 and 0.08s for 1.52)
+and about level at 10k transactions, but it slows down superlinearly beyond that:
+at 100k its balance report takes 15s against hledger 1.99.5's 1.4s,
+its print and register reports need over 10 GB of memory, and at 1M it did not finish.
 
 hledger's own speed has varied between releases.
-In September 2026 hledger's main branch (not yet released) became the fastest hledger yet:
-on a 100,000-transaction journal, about 3x faster than hledger 1.52 and 4x faster than the 1.99.4 preview.
-For measurements across releases, how to benchmark hledger yourself, and some measurements of
-Ledger, Beancount and rustledger on the same journals, see [PERFORMANCE](PERFORMANCE.md)
+The 1.99.5 preview (September 2026) is the fastest hledger yet:
+on a 100,000-transaction journal, about 3x faster than hledger 1.52.
+For measurements across releases, how to benchmark hledger yourself, and measurements of
+Ledger, Beancount, rustledger and Tackler on the same journals, see [PERFORMANCE](PERFORMANCE.md)
 (especially [Other apps](PERFORMANCE.md#other-apps)).
 More benchmarking is welcome.
 
