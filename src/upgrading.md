@@ -232,6 +232,30 @@ or hledger will report lot errors. But don't worry; here are some ways to divide
   `hledger print -a` is the most useful tool, showing how hledger has read each entry.
 - **Keep other reports working.** While lot records are incomplete, you can skip lot processing with `--ignore-lots`.
 
+**If you have been tracking lots with subaccounts**, as the [investments](investments.md) page suggested for hledger 1
+(eg `assets:cc:ada:20200201`), those entries keep working in hledger 2 unchanged.
+If you want to convert them to hledger 2's lot tracking (perhaps in a separate file, as above):
+
+- Add the `lots` tag to the commodity.
+- Post purchases to the parent account; hledger 2 records the lot automatically (visible with `--lots`).
+- In sales, post to the parent account, select the lot by its date,
+  and write the selling price instead of the original cost. Eg, this hledger 1 entry:
+  ```journal
+  2020-03-02 sell the second lot
+      assets:cc:ada:20200215     -1000 ADA @ $0.03   ; original cost
+      revenues:capital gain       $-10
+      assets:bank:checking         $40
+  ```
+  becomes:
+  ```journal
+  2020-03-02 sell the second lot
+      assets:cc:ada              -1000 ADA {2020-02-15} @ $0.04   ; selling price
+      revenues:capital gain       $-10
+      assets:bank:checking         $40
+  ```
+  You can keep the gain posting, and hledger will check it, or remove it, and hledger will add it.
+- Move any balance assertions on lot subaccounts to the parent account, or remove them.
+
 ## Switching back to hledger 1
 
 Journals written for hledger 2 are mostly readable by hledger 1, with these caveats:
