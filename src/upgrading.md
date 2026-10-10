@@ -190,20 +190,48 @@ For all changes, see the [release notes](relnotes.md).
 
 ## Turning on lot tracking
 
-Once your data works with hledger 2, you can (if you want) let it track and check your investment lots;
-see [Lots and capital gains](hledger.md#lots-and-capital-gains).
+Once your data works with hledger 2, you can (if you want) let it track and check your investment lots.
 hledger then works out each lot's cost basis, and picks the lots to sell using your chosen method (FIFO, LIFO, ...),
 calculates realised gains (and checks any you have written),
 reports holdings with unrealised and realised gains,
 and catches mistakes such as selling more than you hold.
-Compared to tracking lots by hand, with subaccounts, this (a) saves a ton of work and (b) is more reliable.
+Compared to tracking lots by hand with subaccounts, this is much less work once set up, and more reliable.
 
-**A heads-up.**
-Be warned, recording your whole past investment history as lots can be a big job.
+### Getting started
+
+Usually you start by adding a `lots` tag to each investment commodity's declaration:
+```journal
+commodity AAPL  ; lots:
+```
+
+[Lots and capital gains](hledger.md#lots-and-capital-gains) in the manual explains how to write lot entries.
+
+One thing to watch for: in hledger 1 a sale is often recorded at its original cost, using `@`:
+```journal
+2026-02-01 sell
+    assets:stocks     -5 AAPL @ $50   ; bought at $50
+    assets:cash      $350
+    revenues:gain   $-100
+```
+In hledger 2 with lot tracking enabled, `@` records the selling price instead, and the gain amount is not part of transaction balancing.
+So the entry should be:
+```journal
+2026-02-01 sell
+    assets:stocks     -5 AAPL @ $70   ; sold at $70
+    assets:cash      $350
+    revenues:gain   $-100
+```
+You can leave the gain posting, and hledger will check it; or remove it, and it will be inferred.
+
+### If you have a long investment history
+
+If you haven't tracked lots before, be aware that recording that full history as lots can be a big job.
 In lot accounting, later entries tend to depend on all previous entries;
 so every purchase, sale, transfer, split and fee must have the right date, quantity and cost,
 or hledger will report lot errors.
-But fear not! There are ways to divide and conquer. Eg:
+(If you have been tracking lots by hand, your entries already have most of the details needed;
+see [below](#if-youve-been-tracking-lots-by-hand).)
+But fear not! Here are some ways to divide and conquer:
 
 - **Draft in a separate file.** Copy your investment entries into a new file, eg `investments.journal`,
   add the `lots` tag there, and work on it with `hledger -f investments.journal check`
@@ -233,30 +261,9 @@ But fear not! There are ways to divide and conquer. Eg:
   `hledger print -a` is the most useful tool, showing how hledger has read each entry.
 - **Keep other reports working.** While lot records are incomplete, you can skip lot processing with `--ignore-lots`.
 
-Usually you start by adding a `lots` tag to each investment commodity's declaration:
-```journal
-commodity AAPL  ; lots:
-```
+### If you've been tracking lots by hand
 
-One thing to watch for: in hledger 1 a sale is often recorded at its original cost, using `@`:
-```journal
-2026-02-01 sell
-    assets:stocks     -5 AAPL @ $50   ; bought at $50
-    assets:cash      $350
-    revenues:gain   $-100
-```
-In hledger 2 with lot tracking enabled, `@` records the selling price instead, and the gain amount is not part of transaction balancing.
-So the entry should be:
-```journal
-2026-02-01 sell
-    assets:stocks     -5 AAPL @ $70   ; sold at $70
-    assets:cash      $350
-    revenues:gain   $-100
-```
-You can leave the gain posting, and hledger will check it; or remove it, and it will be inferred.
-(This is the unbalanced sale issue mentioned in [Lot errors](#errors-you-might-see) above, now caused by the `lots` tag.)
-
-**If you have been tracking lots in hledger 1**, with subaccounts as the [investments](investments.md) page suggested
+If you have been tracking lots in hledger 1 with subaccounts, as the [investments](investments.md) page suggested
 (eg `assets:cc:ada:20200201`), those entries keep working in hledger 2 unchanged.
 If you want to convert them to hledger 2's lot tracking:
 
