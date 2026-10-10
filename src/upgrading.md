@@ -1,7 +1,7 @@
 # Upgrading to hledger 2
 
 hledger 2 (the 1.99.x previews, and 2.0 when released) is a major update,
-whose biggest new feature is [lot tracking and capital gains reporting](hledger.md#lots-and-capital-gains).
+whose biggest new feature is [lot tracking and capital gains reporting](/dev/hledger.html#lots-and-capital-gains).
 It reads hledger 1 data, and most hledger 1 users can switch to it with no changes.
 This page helps you check that, and fix anything that needs it.
 It covers the changes since hledger 1.52 that can affect existing setups;
@@ -80,7 +80,7 @@ hledger 2 uses them to track lots, and checks them:
   hledger 2 reads `@` as the selling price. Write the selling price instead: `-5 AAPL {$50} @ $70`.
 
 - *"A final account name part enclosed in { } must be a valid lot subaccount name."*
-  Account names ending in `:{...}` are reserved for [lot subaccounts](hledger.md#lot-subaccounts),
+  Account names ending in `:{...}` are reserved for [lot subaccounts](/dev/hledger.html#lot-subaccounts),
   and are rejected unless the braces contain a valid lot name.
   Rename such accounts.
 
@@ -168,21 +168,21 @@ If your scripts, aliases or config files depend on these, update them:
 Some of the most useful new features in hledger 2:
 
 - **Speed**: hledger 2 is [2-3x faster](PERFORMANCE.md) than hledger 1.52, and uses up to a third less memory.
-- **Localisation**: report headings and hledger-ui/hledger-web's UI can be shown in other [languages](hledger.md#languages), with `--lang`
+- **Localisation**: report headings and hledger-ui/hledger-web's UI can be shown in other [languages](/dev/hledger.html#languages), with `--lang`
   (currently en, de, zh).
 - **Lot tracking and capital gains**: a `lots` tag tracks each purchase's cost basis and calculates gains when you sell,
-  with several [cost basis methods](hledger.md#cost-basis-methods) (FIFO, LIFO, HIFO, AVERAGE..),
-  and the new [holdings](hledger.md#holdings) report shows your investments, their value and gains.
-- **Simpler importing**: the new [get](hledger.md#get) command fetches new transactions and market prices,
+  with several [cost basis methods](/dev/hledger.html#cost-basis-methods) (FIFO, LIFO, HIFO, AVERAGE..),
+  and the new [holdings](/dev/hledger.html#holdings) report shows your investments, their value and gains.
+- **Simpler importing**: the new [get](/dev/hledger.html#get) command fetches new transactions and market prices,
   and with a conventional `data/`, `rules/`, `prices/` layout, `hledger import` needs no arguments
-  (see [Finding the data](hledger.md#finding-the-data)).
-- **CSV rules**: [merge](hledger.md#merge) combines several CSV records into one transaction,
-  [functions](hledger.md#functions) transform field values,
+  (see [Finding the data](/dev/hledger.html#finding-the-data)).
+- **CSV rules**: [merge](/dev/hledger.html#merge) combines several CSV records into one transaction,
+  [functions](/dev/hledger.html#functions) transform field values,
   and CSV or rules files can be included in a journal.
-- **Aliases**: [command aliases](hledger.md#command-aliases) in your config file,
-  and [commodity aliases](hledger.md#commodity-aliases).
-- **Find anywhere**: [`::TEXT`](hledger.md#find-query) matches text in any field, as you'd see it in `print` output.
-- **Compact transactions list**: the new [transactions](hledger.md#transactions) (tx) command lists transactions one per line.
+- **Aliases**: [command aliases](/dev/hledger.html#command-aliases) in your config file,
+  and [commodity aliases](/dev/hledger.html#commodity-aliases).
+- **Find anywhere**: [`::TEXT`](/dev/hledger.html#find-query) matches text in any field, as you'd see it in `print` output.
+- **Compact transactions list**: the new [transactions](/dev/hledger.html#transactions) (tx) command lists transactions one per line.
 - **hledger-ui** updates automatically when your files change, by default.
 - **hledger-web** gains balance reports, paging and a dark mode.
 

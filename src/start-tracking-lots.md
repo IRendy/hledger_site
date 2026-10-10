@@ -17,7 +17,7 @@ Usually you start by adding a `lots` tag to each investment commodity's declarat
 commodity AAPL  ; lots:
 ```
 Then purchases of that commodity create lots, and sales take from them.
-[Lots and capital gains](hledger.md#lots-and-capital-gains) in the manual explains how to write lot entries.
+[Lots and capital gains](/dev/hledger.html#lots-and-capital-gains) in the manual explains how to write lot entries.
 
 ## If you have a long investment history
 
@@ -32,7 +32,7 @@ But fear not! Here are some ways to divide and conquer:
 - **Draft in a separate file.** Copy your investment entries into a new file, eg `investments.journal`,
   add the `lots` tag there, and work on it with `hledger -f investments.journal check`
   and `hledger -f investments.journal holdings --lots`, while your main journal keeps working as before.
-  When it's right, replace the original entries with the new ones (or with an [include](hledger.md#include-directive)).
+  When it's right, replace the original entries with the new ones (or with an [include](/dev/hledger.html#include-directive)).
 - **Start from a recent date.** Rather than reconstructing your whole history,
   start at the beginning of this year, with an opening entry that acquires the lots you held then,
   with their original acquisition dates and costs (your broker's cost basis records can provide these):
@@ -44,7 +44,7 @@ But fear not! Here are some ways to divide and conquer:
   ```
   If you keep a file per year, these replace the stock postings in this year's opening balances entry.
   If you keep everything in one file, there's no such entry to replace,
-  so either draft the full history, or first split off this year's entries with [close](hledger.md#close).
+  so either draft the full history, or first split off this year's entries with [close](/dev/hledger.html#close).
 - **Do one commodity or account at a time.** Add the `lots` tag to one commodity,
   and get it checking cleanly before moving to the next.
   Accounts where cost basis doesn't matter, like tax-sheltered retirement accounts,
@@ -52,7 +52,7 @@ But fear not! Here are some ways to divide and conquer:
 - **Compare with your broker.** `hledger holdings --lots` shows the lots hledger has worked out;
   check them against your broker's records, and add balance assertions to catch drift.
   Their figures may be rounded differently in different places;
-  see [Reconciling](hledger.md#reconciling) for tips.
-- **Troubleshoot.** See [Troubleshooting lots](hledger.md#troubleshooting-lots) in the manual.
+  see [Reconciling](/dev/hledger.html#reconciling) for tips.
+- **Troubleshoot.** See [Troubleshooting lots](/dev/hledger.html#troubleshooting-lots) in the manual.
   `hledger print -a` is the most useful tool, showing how hledger has read each entry.
 - **Keep other reports working.** While lot records are incomplete, you can skip lot processing with `--ignore-lots`.
