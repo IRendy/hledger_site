@@ -154,9 +154,10 @@ or *lot*. This information is needed:
      basis*) of those lots.
   
 Ledger and Beancount provide a special syntax and some builtin reports for tracking lots and calculating capital gains,
-and so does hledger 2: see [Lots and capital gains](hledger.md#lots-and-capital-gains) in the manual.
+and so does hledger 2: see [Lots and capital gains](hledger.md#lots-and-capital-gains) in the manual,
+and [Start tracking lots](start-tracking-lots.md).
 The rest of this page shows a manual approach, which also works in hledger 1.
-(If you have used it, and want to switch to hledger 2's lot tracking, see [Upgrading to hledger 2](upgrading.md#turning-on-lot-tracking).)
+(If you have used it, and want to switch to hledger 2's lot tracking, see [Upgrading to hledger 2](upgrading.md#if-youve-been-tracking-lots-by-hand).)
 
 We can use the obvious categorisation feature: accounts.
 We'll give every lot its own uniquely-named subaccount.

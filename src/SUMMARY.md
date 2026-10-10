@@ -96,6 +96,7 @@
   - [Multicurrency tutorial (2018)](multicurrency-tutorial.md)
 - [Investing]()
   - [Track investments (2020)](investments.md)
+  - [Start tracking lots](start-tracking-lots.md)
   - [Calculate unrealized gain](gain.md)
   - [Calculate return on investment](roi.md)
 - [Time tracking]()

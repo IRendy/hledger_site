@@ -218,6 +218,7 @@ Additional docs, tips, and notes, grouped by topic.
 
 ### Investing
 - [Track investments (2020)](investments.md)
+- [Start tracking lots](start-tracking-lots.md)
 - [Calculate unrealized gain](gain.md)
 - [Calculate return on investment](roi.md)
 - [hledger manual: Cost reporting](hledger.md#cost-reporting)
