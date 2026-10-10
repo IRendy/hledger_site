@@ -38,7 +38,7 @@ and both versions can be installed side by side.
    (This works in bash or zsh. Elsewhere, save each report to a file and compare the files.)
 
 6. Fix anything found, using the sections below.
-   And update any scripts or config which use [changed commands or options](#changed-commands-and-options).
+   And update any scripts or config which use [changed commands](#changes-in-commands-and-their-output).
 
 ## Errors you might see
 
@@ -88,10 +88,14 @@ If you don't want to deal with these now, you can run hledger with `--ignore-lot
 This skips lot processing, giving results close to hledger 1's. (`-I` also skips balance assertions.)
 For more help with lot errors, see [Turning on lot tracking](#turning-on-lot-tracking) below.
 
-## Behaviour changes
+**Balance assertions and account checks.**
+A balance assertion or account check that fails only in hledger 2 may be caused by one of the
+[changes in how your files are read](#changes-in-how-your-files-are-read) below, such as aliases with `apply account`.
 
-Some of these can change reports, without raising an error.
-Comparing reports from both versions, as in the upgrade steps above, will show any differences.
+## Changes in how your files are read
+
+These change how your journal, CSV rules or config files are interpreted.
+Comparing reports from both versions, as in the upgrade steps above, will show their effects, if any.
 
 - **Config file default command.**
   A config file can no longer choose the command to run.
@@ -99,7 +103,7 @@ Comparing reports from both versions, as in the upgrade steps above, will show a
   is now read as a query argument, which quietly filters every report.
   Remove it, and give the command on the command line.
 
-- **Realised gains.**
+- **Inferred gains.**
   If your journal has sales with cost basis annotations but no gain posting, like `-5 AAPL {$50} @ $70`,
   hledger 2 infers the realised gain and posts it to a gain account (`revenues:gain` by default).
   This will appear on your income statement, which is usually what you want; `-I` gives hledger 1's results.
@@ -110,11 +114,12 @@ Comparing reports from both versions, as in the upgrade steps above, will show a
   hledger 1 did it the other way round.
   So aliases written with the parent account (`alias business:checking = ...`) no longer match,
   and aliases written without it (`alias checking = ...`) now do.
+  This can make balance assertions or account checks fail.
   Update the aliases if you need to. (`--alias` options are unaffected; they still apply last.)
 
-- **CSV rules.**
-  When a directive like `date-format` or `separator` is written more than once,
-  the last one now wins (except for `skip`), as documented.
+- **Repeated CSV settings.**
+  When a CSV setting like `date-format` or `separator` is written more than once,
+  the last one now wins.
   If you wrote one before an `include` to override the included file's, move it after the `include`.
 
 - **CSV data directory.**
@@ -123,6 +128,17 @@ Comparing reports from both versions, as in the upgrade steps above, will show a
   The `archive` rule now saves files in `data/archive/` there,
   instead of in a `data/` directory next to the rules file.
 
+## Changes in commands and their output
+
+These affect how you run hledger and what it shows.
+If your scripts, aliases or config files depend on these, update them:
+
+- `--tldr` is now `--examples`.
+- `stats -1` is now `stats --oneline`.
+- `--verbose-tags` is now an option of `print` and `rewrite` only.
+- The `demo` and `commands` commands have been removed.
+  (`hledger help commands` lists the commands.)
+
 - **print layout.**
   `print` now aligns amounts by their decimal mark. `--layout=hledger1` gives the old layout.
 
@@ -130,27 +146,22 @@ Comparing reports from both versions, as in the upgrade steps above, will show a
   Amounts which hledger infers no longer affect a commodity's display precision,
   so some reports show fewer decimal places.
 
+- **any: and all: queries.**
+  These now also work in posting reports like `register` and `balance`, not just in `print`.
+
 - **accounts and payees.**
   Query terms which only match transactions, like `date:` or `desc:`, now exclude declared accounts or payees which aren't used.
   And `payees payee:REGEX` now matches declared payees.
 
-- **any: and all: queries.**
-  These now also work in posting reports like `register` and `balance`, not just in `print`.
-
 - **commodities --used.**
   This now shows only commodities used in transactions; `--priced` shows those used in P directives.
 
-## Changed commands and options
-
-If your scripts, aliases or config files use these, update them:
-
-- `--tldr` is now `--examples`.
-- `stats -1` is now `stats --oneline`.
-- `--verbose-tags` is now an option of `print` and `rewrite` only.
-- The `demo` and `commands` commands have been removed.
-  (`hledger help commands` lists the commands.)
+- hledger-ui now watches your files and reloads automatically by default.
+  `--no-watch` turns this off.
 - hledger-web, when listening on a non-local address (set with `--host`), is now read-only by default.
   Add `--allow=edit` to allow editing.
+- hledger-web now shows its pages in your browser's preferred language, if a translation is available
+  (currently Chinese, German and Spanish). `--lang en` keeps it in English.
 
 ## What's new
 
