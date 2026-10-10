@@ -58,13 +58,8 @@ Use `#` or `;` to begin comment lines.
 hledger 1 accepted cost basis annotations like `{$50}` but ignored them.
 hledger 2 uses them to track lots, and checks them:
 
-- *"A final account name part enclosed in { } must be a valid lot subaccount name."*
-  Account names ending in `:{...}` are reserved for [lot subaccounts](hledger.md#lot-subaccounts),
-  and are rejected unless the braces contain a valid lot name.
-  Rename such accounts.
-
 - *"This acquire posting's cost basis ($50) differs from its transacted cost ($55)"*:
-  in a purchase like `10 AAPL {$50} @ $55`, the two costs must now agree.
+  in a purchase like `10 AAPL {$50} @ $55`, the two costs must agree.
   If the difference is real (eg a gift with a carried-over cost basis),
   record it in another posting, as in this [gift example](investments.md#gift-received).
 
@@ -78,6 +73,11 @@ hledger 2 uses them to track lots, and checks them:
       equity:opening/closing balances
   ```
   (A dated annotation like this needs hledger 2; hledger 1 can't read it.)
+
+- *"A final account name part enclosed in { } must be a valid lot subaccount name."*
+  Account names ending in `:{...}` are reserved for [lot subaccounts](hledger.md#lot-subaccounts),
+  and are rejected unless the braces contain a valid lot name.
+  Rename such accounts.
 
 If you don't want to deal with these now, you can run hledger with `--ignore-lots` or `-I`.
 This skips lot processing, giving results close to hledger 1's. (`-I` also skips balance assertions.)
