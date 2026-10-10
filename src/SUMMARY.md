@@ -4,6 +4,7 @@
 
 - [Home](index.md)
 - [Install](install.md)
+- [Upgrading to hledger 2](upgrading.md)
 - [Release notes](relnotes.md) -->
 - [Docs](doc.md)
 - [Support](support.md)
