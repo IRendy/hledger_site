@@ -390,7 +390,7 @@ these must be converted to explicit amounts. Here are the known ways:
 hledger 1 (1.52) preserves cost basis annotations, so that they can be exported to Ledger or Beancount for gain calculations,
 but otherwise ignores them. So Ledger entries using cost basis annotations might be reported as unbalanced, or might have wrong capital gain inferred.
 (If you need to calculate capital gains in hledger 1, record the cost basis with `@` in both acquires and disposals, and track lots manually with subaccounts.
-See eg [Track investments (2020)](investments.md).)
+See eg [Tracking lots with hledger 1](investments.md).)
 
 hledger 2 (the 1.99.x previews and later) uses cost basis annotations to track lots and calculate capital gains automatically.
 It normally uses a syntax similar to Beancount's, but it also reads all of Ledger's cost basis annotations:

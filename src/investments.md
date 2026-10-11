@@ -1,4 +1,4 @@
-# Track investments (2020)
+# Tracking lots with hledger 1
 
 Last updated: 2020
 

@@ -217,8 +217,8 @@ Additional docs, tips, and notes, grouped by topic.
 - [hledger manual: Value reporting](hledger.md#value-reporting)
 
 ### Investing
-- [Track investments (2020)](investments.md)
 - [Start tracking lots](start-tracking-lots.md)
+- [Tracking lots with hledger 1](investments.md)
 - [Calculate unrealized gain](gain.md)
 - [Calculate return on investment](roi.md)
 - [hledger manual: Cost reporting](hledger.md#cost-reporting)
@@ -227,9 +227,9 @@ Additional docs, tips, and notes, grouped by topic.
 - [hledger manual: balance features](hledger.md#balance-features)
 - [hledger-lots](scripts.md#hledger-lots)
 - [PTA Cookbook: Investing and trading](https://plaintextaccounting.org/Investing-and-trading)
-- [Average cost capital gains with hledger](https://curiousbicycle.com/post/hledger-capital-gains) 2023
-- [Track foreign stock capital gains using hledger](https://curiousbicycle.com/post/hledger-foreign-stock) 2023
-- [Full-fledged hledger: Manual lot tracking](https://github.com/adept/full-fledged-hledger/wiki/Manual-lot-tracking) 2024
+- [Average cost capital gains with hledger](https://curiousbicycle.com/post/hledger-capital-gains)
+- [Track foreign stock capital gains using hledger](https://curiousbicycle.com/post/hledger-foreign-stock)
+- [Full-fledged hledger: Manual lot tracking](https://github.com/adept/full-fledged-hledger/wiki/Manual-lot-tracking)
 
 ### Time tracking
 - [Converting time to money](time-to-money.md)

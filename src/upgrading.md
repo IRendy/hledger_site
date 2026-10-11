@@ -219,7 +219,7 @@ You can leave the gain posting, and hledger will check it; or remove it, and it 
 
 ### If you've been tracking lots by hand
 
-If you have been tracking lots in hledger 1 with subaccounts, as the [investments](investments.md) page suggested
+If you have been tracking lots in hledger 1 with subaccounts, as [Tracking lots with hledger 1](investments.md) suggested
 (eg `assets:cc:ada:20200201`), those entries keep working in hledger 2 unchanged.
 If you want to convert them to hledger 2's lot tracking:
 
