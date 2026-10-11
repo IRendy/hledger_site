@@ -169,18 +169,18 @@ Some of the most useful new features in hledger 2:
 
 - **Speed**: hledger 2 is [2-3x faster](PERFORMANCE.md) than hledger 1.52, and uses up to a third less memory.
 - **Localisation**: report headings and hledger-ui/hledger-web's UI can be shown in other [languages](/dev/hledger.html#languages), with `--lang`
-  (currently en, de, zh).
-- **Lot tracking and capital gains**: a `lots` tag tracks each purchase's cost basis and calculates gains when you sell,
-  with several [cost basis methods](/dev/hledger.html#cost-basis-methods) (FIFO, LIFO, HIFO, AVERAGE..),
-  and the new [holdings](/dev/hledger.html#holdings) report shows your investments, their value and gains.
+  (currently en, es, de, zh).
+- **Lot tracking and capital gains**: a commodity can track each purchase's cost basis and calculate gains when you sell,
+  with several [cost basis methods](/dev/hledger.html#cost-basis-methods) (FIFO, LIFO, HIFO, AVERAGE, ..),
+  and the new [holdings](/dev/hledger.html#holdings) report shows your investments and their performance.
 - **Simpler importing**: the new [get](/dev/hledger.html#get) command fetches new transactions and market prices,
   and with a conventional `data/`, `rules/`, `prices/` layout, `hledger import` needs no arguments
   (see [Finding the data](/dev/hledger.html#finding-the-data)).
 - **CSV rules**: [merge](/dev/hledger.html#merge) combines several CSV records into one transaction,
   [functions](/dev/hledger.html#functions) transform field values,
   and CSV or rules files can be included in a journal.
-- **Aliases**: [command aliases](/dev/hledger.html#command-aliases) in your config file,
-  and [commodity aliases](/dev/hledger.html#commodity-aliases).
+- **Custom commands**: define custom [command aliases](/dev/hledger.html#command-aliases) and scripts in your config file
+- **Commodity aliases**: [commodity aliases](/dev/hledger.html#commodity-aliases) help unify a commodity's symbols/units
 - **Find anywhere**: [`::TEXT`](/dev/hledger.html#find-query) matches text in any field, as you'd see it in `print` output.
 - **Compact transactions list**: the new [transactions](/dev/hledger.html#transactions) (tx) command lists transactions one per line.
 - **hledger-ui** updates automatically when your files change, by default.
