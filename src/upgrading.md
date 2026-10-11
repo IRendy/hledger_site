@@ -173,13 +173,13 @@ Some of the most useful new features in hledger 2:
 - **Lot tracking and capital gains**: a commodity can track each purchase's cost basis and calculate gains when you sell,
   with several [cost basis methods](/dev/hledger.html#cost-basis-methods) (FIFO, LIFO, HIFO, AVERAGE, ..),
   and the new [holdings](/dev/hledger.html#holdings) report shows your investments and their performance.
+- **Custom commands**: define custom [command aliases](/dev/hledger.html#command-aliases) and scripts in your config file
 - **Simpler importing**: the new [get](/dev/hledger.html#get) command fetches new transactions and market prices,
   and with a conventional `data/`, `rules/`, `prices/` layout, `hledger import` needs no arguments
   (see [Finding the data](/dev/hledger.html#finding-the-data)).
 - **CSV rules**: [merge](/dev/hledger.html#merge) combines several CSV records into one transaction,
   [functions](/dev/hledger.html#functions) transform field values,
   and CSV or rules files can be included in a journal.
-- **Custom commands**: define custom [command aliases](/dev/hledger.html#command-aliases) and scripts in your config file
 - **Commodity aliases**: [commodity aliases](/dev/hledger.html#commodity-aliases) help unify a commodity's symbols/units
 - **Find anywhere**: [`::TEXT`](/dev/hledger.html#find-query) matches text in any field, as you'd see it in `print` output.
 - **Compact transactions list**: the new [transactions](/dev/hledger.html#transactions) (tx) command lists transactions one per line.
