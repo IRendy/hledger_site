@@ -22,6 +22,8 @@ Note it sees only nonexpired chat logs, and by default they expire after 30 days
 I tried to gather data regularly, while my logs were intact.
 Later I saw you can configure claude code to retain logs longer, eg for a year or more.
 
+(I compared reports from ccusage with the platform usage, and they did not agree very well; I'm not sure why.)
+
 From the start of Q3, I and a few other developers using AI haved logged our AI usage (measured with ccusage, eg) in git commits,
 adding a standard "AI usage: ..." line.
 
