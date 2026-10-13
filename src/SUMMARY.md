@@ -87,7 +87,7 @@
   - [Project accounting](project-accounting.md)
   - [Closing the year](closing-the-year.md)
   - [A tax reporting setup](tax-reporting-setup.md)
-  - [AI usage accounting](ai-usage-accounting.md)
+  - [AI usage tracking](ai-usage-tracking.md)
   - [Cryptocurrency tax reporting](cctax.md)
 - [Budgeting and forecasting]()
   - [Budgeting](budgeting.md)

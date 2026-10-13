@@ -1,4 +1,4 @@
-# AI usage accounting
+# AI usage tracking
 
 Here are some notes on tracking AI usage, currently just from the hledger project.
 

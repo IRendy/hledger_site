@@ -196,7 +196,7 @@ Additional docs, tips, and notes, grouped by topic.
 - [Project accounting](project-accounting.md)
 - [Closing the year](closing-the-year.md)
 - [A tax reporting setup](tax-reporting-setup.md)
-- [AI usage accounting](ai-usage-accounting.md)
+- [AI usage tracking](ai-usage-tracking.md)
 - [Cryptocurrency tax reporting](cctax.md)
 - [PTA: Choosing cash or accrual](https://plaintextaccounting.org/#choosing-cash-vs-accrual)
 - [PTA: Eco accounting](https://plaintextaccounting.org/Eco-accounting)
