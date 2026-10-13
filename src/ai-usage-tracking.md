@@ -6,7 +6,7 @@ Here are some notes on tracking AI usage, currently just from the hledger projec
 
 The project's [AI policy](AI.md) requires tracking our AI usage.
 
-`just ai-help` in the hledger repo shows some related Justfile scripts.
+`just ai help` in the hledger repo shows some related Justfile scripts.
 
 ### Measuring usage
 
@@ -26,7 +26,7 @@ From the start of Q3, we log our AI usage (measured with ccusage, eg) in every A
 with an "AI usage: ..." line in a standard format.
 
 Each month I summarise the usage estimates from commit messages to `doc/ai/aicommits.csv`,
-using `just ai-commits-csv` and `tools/aicommits`.
+using `just ai commits-csv` and `tools/aicommits`.
 And I import a new entry from there to a permanent hledger journal,
 [doc/ai/ai.journal](https://github.com/hledgerorg/hledger/blob/main/doc/ai/ai.journal)
 
