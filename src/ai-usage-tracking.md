@@ -35,5 +35,5 @@ we add that manually to ai.journal also.
 
 ### Reports
 
-WIP. Here's an project AI usage report as of 2026-10-11: <https://groups.google.com/g/hledger/c/q8IiWpbljmM>
-
+See [doc/ai/hledger.conf](https://github.com/hledgerorg/hledger/blob/main/doc/ai/hledger.conf)
+and [doc/ai/README.md](https://github.com/hledgerorg/hledger/tree/main/doc/ai#readme).
