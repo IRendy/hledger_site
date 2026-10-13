@@ -4,14 +4,14 @@ Here are some notes on tracking AI usage, currently just from the hledger projec
 
 ## hledger project
 
-[AI.md](AI.md) describes the project's AI policy, which requires tracking our AI usage.
+The project's [AI policy](AI.md) requires tracking our AI usage.
 
 `just ai-help` in the hledger repo shows some related Justfile scripts.
 
-### Measuring AI usage
+### Measuring usage
 
-In 2026 Q1, for the initial lots work in the first 2.0 preview release (1.99.1),
-I (SM) started using AI assistance. (The first known use of AI in the hledger project.)
+In 2026 Q1, I (SM) started exploring AI assistance for the hledger project,
+beginning with the initial lots work for the first 2.0 preview release (1.99.1).
 I used Anthropic's API pricing, and recorded token counts and costs
 from <https://platform.claude.com/usage>.
 
