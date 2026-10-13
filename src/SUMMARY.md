@@ -102,6 +102,7 @@
 - [Time tracking]()
   - [Converting time to money](time-to-money.md)
   - [Time planning](time-planning.md)
+  - [AI usage accounting](ai-usage-accounting.md)
 - [Scripts and add-ons]()
   - [Scripts and add-ons](scripts.md)
   - [Scripting hledger](scripting.md)
